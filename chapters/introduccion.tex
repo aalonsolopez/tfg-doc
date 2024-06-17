@@ -32,14 +32,8 @@ Las plataformas de Serverless como AWS Lambda, Google Cloud Functions, Azure Fun
     \item Escalar las funciones según sea necesario para manejar un gran volumen de tráfico
 \end{itemize}
 
-Las ventajas clave de utilizar Serverless incluyen:
+Las ventajas clave de utilizar Serverless incluyen: una significativa reducción del coste de \textit{hosting} (en el caso de estar usando un \textit{cloud} de pago como Amazon Web Services) o, en caso de ser \textit{on-premises} una reducción de los recursos usados; mayor escalabilidad al poder escalar las funciones según sea necesario con base en el volumen de tráfico que haya; mayor flexibilidad al delegar la decisión a los desarrolladores para elegir la plataforma y la tecnología de desarrollo; y una mejora en la seguridad ya que, como bondad heredada de los contenedores, las funciones son aisladas y seguras.
 
-\begin{itemize}
-    \item \textbf{Reducción del costo}: no se pagan recursos en la nube cuando no se están utilizando
-    \item \textbf{Mayor escalabilidad}: las funciones se pueden escalar según sea necesario para manejar un gran volumen de tráfico
-    \item \textbf{Flexibilidad}: los desarrolladores pueden elegir entre diferentes plataformas y tecnologías
-    \item \textbf{Mayor seguridad}: las funciones son aisladas y seguras, lo que reduce el riesgo de ataques y vulnerabilidades
-\end{itemize}
 
 \textbf{WebAssembly en entornos distribuidos}
 
@@ -62,7 +56,7 @@ Los siguientes objetivos son derivados del objetivo principal, algunos simplemen
 
 \subsubsection{1. Fomento y contribución al desarrollo Open Source de WasmEdge}
 
-Fomentar y fortalecer la contribución al ecosistema de WasmEdge mediante la implementación de mejoras clave en la documentación con base en el trabajo hecho para este trabajo. A su vez, se mantendrá una colaboración activa con la comunidad de desarrolladores que se lleva a cabo en el Discord oficial, donde se han debatido diferentes aspectos de este \textit{runtime}.
+Fomentar y fortalecer la contribución al ecosistema de WasmEdge mediante la implementación de mejoras clave en la documentación con base en el trabajo hecho para este proyecto. A su vez, se mantendrá una colaboración activa con la comunidad de desarrolladores que se lleva a cabo en el Discord oficial, donde se han debatido diferentes aspectos de este \textit{runtime}.
 
 \subsubsection{2. Análisis arquitectural de Docker y Kubernetes}
 
@@ -82,10 +76,26 @@ Evaluar la viabilidad y el rendimiento de WebAssembly usando WasmEdge en entorno
 
 \section{Motivación}
 
+La motivación detrás de este trabajo radica en la necesidad de desarrollar soluciones innovadoras para el desarrollo de aplicaciones escalables y seguras en entornos de contenedores. En la actualidad, el uso de contenedores como Docker y orquestadores de estos como Kubernetes ha revolucionado la forma en que se desarrollan y se implementan aplicaciones gracias a su capacidad para proporcionar aislamiento, flexibilidad y escalabilidad.
 
+Sin embargo, la creciente complejidad y la velocidad de evolución de los sistemas de información requieren de soluciones más eficientes y escalables. La utilización de WebAssembly (WASM) como tecnología para ejecutar código en contenedores puede ser una respuesta efectiva a este desafío.
+
+El proyecto propuesto busca evaluar la viabilidad y el rendimiento de WASM utilizando WasmEdge en diferentes entornos de contenedores, con el fin de desarrollar soluciones más eficientes y escalables para el desarrollo de aplicaciones. Los resultados esperados son una mayor comprensión del potencial de WASM en entornos de contenedores, así como la identificación de oportunidades de mejora y optimización para su implementación efectiva.
+
+En este sentido, esta investigación se enfoca en la aplicación práctica de los conceptos teóricos aprendidos durante el desarrollo del título de grado, y contribuye a la formación de competencias en áreas como el desarrollo de aplicaciones, la ingeniería de software y la innovación tecnológica.
 
 \section{Justificación}
 
+En los últimos meses, he estado involucrado en varios proyectos que han sido desarrollados para entornos distribuidos y en microservicios. Dada esta experiencia, he podido observar que aún hay un gran espacio de mejora en este tipo de arquitecturas. Si bien, cuando se aplican adecuadamente frente a los monolitos, pueden resultar muy positivas para la experiencia del usuario final, en la mayoría de las ocasiones pueden representar una complicación adicional para el desarrollador detrás de estos.
 
+WebAssembly (Wasm) ha emergido como una tecnología prometedora que puede abordar algunos de los desafíos inherentes a los entornos distribuidos. Originalmente diseñado para ejecutar código de manera eficiente en navegadores web, WebAssembly ha evolucionado para soportar una amplia gama de aplicaciones más allá del navegador, incluidas las aplicaciones en servidores y dispositivos IoT. Su capacidad para ejecutar código casi nativo con alta eficiencia y seguridad lo convierte en una opción atractiva para arquitecturas de microservicios.
+
+La principal motivación detrás de este estudio es explorar cómo WebAssembly puede mejorar el desarrollo y la implementación de sistemas distribuidos. Las ventajas potenciales incluyen una mayor portabilidad del código, una menor huella de memoria y un rendimiento mejorado en comparación con las soluciones tradicionales. Además, WebAssembly promete una mayor seguridad mediante un modelo de ejecución aislado, lo que podría reducir la superficie de ataque en aplicaciones distribuidas.
+
+La adopción de WebAssembly en entornos distribuidos no solo podría simplificar el desarrollo y mantenimiento de aplicaciones complejas, sino también mejorar la interoperabilidad entre servicios escritos en diferentes lenguajes de programación. Esto se alinea con la tendencia actual de construir sistemas más flexibles y modulares que puedan adaptarse rápidamente a las necesidades cambiantes del negocio.
+
+La justificación de este estudio radica en la necesidad de encontrar soluciones más eficientes y seguras para el desarrollo de arquitecturas de microservicios en entornos distribuidos. Al analizar y comparar la aplicación de WebAssembly con las tecnologías existentes, este trabajo busca proporcionar una comprensión más clara de sus beneficios y limitaciones, así como su potencial impacto en la industria del software.
 
 \section{Estructura de la memoria}
+
+TBD cuando termine la memoria
