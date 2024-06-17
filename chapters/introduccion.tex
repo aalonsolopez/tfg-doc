@@ -1,0 +1,91 @@
+\chapter{Introducción}
+\label{ch:introduccion}
+
+\section{Contexto}
+
+En la era digital, las empresas y organizaciones están enfrentando una creciente demanda de la sociedad de aplicaciones y servicios en línea que sean capaces de manejar grandes cantidades de tráfico y datos. Debido a esto, los desarrolladores y arquitectos están adoptando e investigando tecnologías que logren satisfacer estas necesidades de manera eficaz, rápida e incurriendo en los menores gastos posibles.
+
+\textbf{El uso de contenedores}
+
+El uso de los contenedores (o \textit{containerización}) hizo posible el despliegue de aplicaciones de manera reproducible y aislada y se erigió como alternativa a las máquinas virtuales. Los contenedores dotaban de todas las características que te ofrecían otras alternativas, sumado a la reproducibilidad y al menor uso de recursos en comparación, debido a que no necesitan un sistema operativo completo para funcionar.
+
+\textbf{Microservicios y orquestación de contenedores}
+
+Con tecnologías como Kubernetes, y aprovechando las características antes citadas de los contenedores, el uso de microservicios se ha convertido en una forma efectiva de diseñar y desplegar aplicaciones escalables y seguras. Los microservicios son componentes autónomos y atómicos que interactúan entre sí para proporcionar un servicio completo. La orquestación de contenedores, como Kubernetes, permite a los desarrolladores gestionar y coordinar el despliegue de estos microservicios de manera eficiente. La orquestación te otorga beneficios clave a la hora de construir aplicaciones y servicios:
+
+\begin{itemize}
+    \item Gestionar el despliegue y la eliminación de contenedores
+    \item Monitorear el rendimiento de los microservicios
+    \item Escalar los recursos según sea necesario
+    \item Asegurarse de que los contenedores estén funcionando correctamente
+\end{itemize}
+
+\textbf{Serverless y \textit{Functions as a Service}}
+
+En este contexto, Serverless (también conocido como FaaS, Functions as a Service) se está convirtiendo en una metodología arquitectónica innovadora que permite a los desarrolladores crear aplicaciones sin la necesidad de administrar servidores. En lugar de eso, los desarrolladores pueden enfocarse en escribir código y dejar que las plataformas de Serverless manejen el resto.
+
+Las plataformas de Serverless como AWS Lambda, Google Cloud Functions, Azure Functions, o incluso plataformas \textit{on-premises} como OpenFunctions o Knative, permiten a los desarrolladores:
+
+\begin{itemize}
+    \item Crear funciones pequeñas y atómicas que se ejecutan solo cuando son necesarias
+    \item Utilizar recursos en la nube según sea necesario, sin la necesidad de administrar servidores
+    \item Escalar las funciones según sea necesario para manejar un gran volumen de tráfico
+\end{itemize}
+
+Las ventajas clave de utilizar Serverless incluyen:
+
+\begin{itemize}
+    \item \textbf{Reducción del costo}: no se pagan recursos en la nube cuando no se están utilizando
+    \item \textbf{Mayor escalabilidad}: las funciones se pueden escalar según sea necesario para manejar un gran volumen de tráfico
+    \item \textbf{Flexibilidad}: los desarrolladores pueden elegir entre diferentes plataformas y tecnologías
+    \item \textbf{Mayor seguridad}: las funciones son aisladas y seguras, lo que reduce el riesgo de ataques y vulnerabilidades
+\end{itemize}
+
+\textbf{WebAssembly en entornos distribuidos}
+
+En este contexto, WebAssembly (WASM) se está convirtiendo en una tecnología innovadora que puede unificar y simplificar el proceso de desarrollo y despliegue de aplicaciones distribuidas. WASM es un formato de código compilado que permite a los desarrolladores crear aplicaciones web que sean capaces de ejecutarse en diferentes entornos y plataformas, sin la necesidad de traducción o interpretación. Pese a que en su origen WASM fue concebido para poder ejecutar código en clientes web distintos, la creación de WebAssembly System Interface (WASI) hizo posible la ejecución de código compilado a WASM en el entorno del servidor. WASI permite a estos programas hacer llamadas al sistema donde se ejecuta, como entrada y salida, o lectura y escritura de ficheros, entre otras.
+
+ 
+\section{Objetivos}
+
+El objetivo principal de este proyecto no es otro que probar que la implementación de aplicaciones WebAssembly en contenedores puede brindar mejores resultados en términos de rendimiento, escalabilidad y seguridad en comparación con otras tecnologías de contenedores. En este sentido, se quiere evaluar y comparar los resultados de implementar una aplicación utilizando WebAssembly en contenedores con otros contenedores que utilizan diferentes tecnologías y enfocarse en la evaluación de su desempeño, escalabilidad y seguridad.
+
+Además de este, se han establecido diferentes objetivos derivados del principal para la realización de este proyecto, que aporten una profundidad extra a los resultados obtenidos, a la par que contribuir comunitariamente al buen desarrollo de los proyectos WASM de código abierto.
+
+\subsection{Principal}
+
+Evaluar la viabilidad y el rendimiento de WebAssembly usando WasmEdge en entornos Docker, mediante el desarrollo de pruebas comparativas y benchmarks que analicen tiempos de ejecución, tamaños de imagen, y la identificación de bugs y compensaciones (trade-offs) en el uso de contenedores. Además, se pretende hacer una comparativa con la facilidad de uso de contenedores basados en Wasm frente a contenedores con imágenes basadas en distribuciones Linux convencionales.
+
+\subsection{Derivados}
+
+Los siguientes objetivos son derivados del objetivo principal, algunos simplemente porque son necesarios para la realización de este, y otros como consecuencia de su realización.
+
+\subsubsection{1. Fomento y contribución al desarrollo Open Source de WasmEdge}
+
+Fomentar y fortalecer la contribución al ecosistema de WasmEdge mediante la implementación de mejoras clave en la documentación con base en el trabajo hecho para este trabajo. A su vez, se mantendrá una colaboración activa con la comunidad de desarrolladores que se lleva a cabo en el Discord oficial, donde se han debatido diferentes aspectos de este \textit{runtime}.
+
+\subsubsection{2. Análisis arquitectural de Docker y Kubernetes}
+
+Realizar un análisis exhaustivo de la arquitectura y evolución de Docker y Kubernetes, enfocándose en sus componentes fundamentales, diferencias en imágenes, y sus respectivos \textit{runtimes}, para proporcionar una guía comprensiva que facilite la adopción y optimización de estas tecnologías en entornos de desarrollo y producción. Además, este análisis es necesario para entender de manera profunda como se integran los entornos de ejecución de WebAssembly y como funcionan.
+
+\subsubsection{3. Análisis del desarrollo de componentes en WASM y WASI}
+
+Realizar una investigación exhaustiva sobre el desarrollo de aplicaciones y componentes en WebAssembly (WASM) y WebAssembly System Interface (WASI), incluyendo su estado actual, lenguajes compatibles, y su integración con contenedores. El resultado debe de ser una vista general del estado del desarrollo de estas tecnologías, su actual viabilidad de adopción en proyectos en producción, y sus trade-offs a la hora de adoptarlo.
+
+\subsubsection{4. WebAssembly en plataformas de Kubernetes}
+
+Evaluar y optimizar el uso de WebAssembly con WasmEdge en Kubernetes utilizando \textit{runtimes} como containerd en diferentes plataformas (microk8s, minikube y k3s), mediante el desarrollo de pruebas comparativas y benchmarks que analicen la facilidad de uso, tiempos de ejecución, tamaños de imagen, y la identificación de bugs y compensaciones (trade-offs) en el uso de contenedores, complementado con la documentación del proceso de despliegue usando \textit{RunWasi}.
+
+\subsubsection{5. WebAssembly en entornos serverless}
+
+Evaluar la viabilidad y el rendimiento de WebAssembly usando WasmEdge en entornos Kubernetes con containerd y Knative, mediante el desarrollo de pruebas comparativas y benchmarks que analicen el tiempo de ejecución, tiempo de startup, tamaños de imagen, identificación de bugs y compensaciones (trade-offs), y la verificación de las expectativas de WebAssembly en arquitecturas serverless. Los entornos Serverless deberían de ser el escenario idílico para la ejecución de microservicios basados en WebAssembly debido a su naturaleza que reduce teóricamente el tiempo de arranque (cold-start) y de ejecución.
+
+\section{Motivación}
+
+
+
+\section{Justificación}
+
+
+
+\section{Estructura de la memoria}
