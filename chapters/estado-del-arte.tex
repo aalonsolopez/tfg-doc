@@ -54,7 +54,7 @@ Kubernetes es un sistema de orquestación de contenedores de código abierto lan
 
 Este proyecto cuenta con el respaldo de muchas de las empresas más grandes del sector, que sustentan la mayor parte de operaciones sobre Kubernetes, y en una base de contribuidores particulares muy activa y en constante crecimiento.
 
-Kubernetes usa como entorno de ejecución de contenedores a Containerd, a lo que hace que se abra la posibilidad de desplegar módulos de WebAssembly en él para aprovechar sus virtudes.
+Kubernetes usa como entorno de ejecución de contenedores a Containerd, a lo que hace que se abra la posibilidad de desplegar módulos de WebAssembly en él para aprovechar sus virtudes haciendo uso del shim de containerd más popular para ejecutar contenedores basados en WASM: RunWasi.
 
 \begin{figure}[h!]
     \centering
@@ -67,17 +67,42 @@ Kubernetes usa como entorno de ejecución de contenedores a Containerd, a lo que
 
 \subsection{WebAssembly}
 
-WebAssembly (WASM) es una tecnología que permite ejecutar código de bajo nivel en navegadores web con un rendimiento cercano al nativo. Funciona como una capa de abstracción entre el código fuente y la plataforma subyacente, lo que significa que puedes escribir código en lenguajes como C++, Rust o incluso Python, y luego compilarlo a un formato binario optimizado que puede ser ejecutado directamente por el navegador. Debido a que hay algunas características que siguen en fases tempranas de desarrollo, como el soporte de \textit{garbage collector}, hay ciertos lenguajes que no tienen soporte, como puede ser Java.
+WebAssembly (WASM) es una tecnología creada por el W3C que permite ejecutar código de bajo nivel en navegadores web con un rendimiento cercano al nativo. Nació en 2015, pero no fue hasta 2020 que el W3C lo reconoció como uno de los lenguajes estándar de «la web». Funciona como una capa de abstracción entre el código fuente y la plataforma subyacente, lo que significa que puedes escribir código en lenguajes como C++, Rust o incluso Python, y luego compilarlo a un formato binario optimizado que puede ser ejecutado directamente por el navegador. Cuando WebAssembly es ejecutado en el navegador, este lo hace en un entorno aislado dentro del navegador. Debido a que hay algunas características que siguen en fases tempranas de desarrollo, como el soporte de \textit{garbage collector}, hay ciertos lenguajes que no tienen soporte, como puede ser Java.
 
 El resultado de las compilaciones a WASM da como resultado módulos de WebAssembly, que pueden ser usados de dos formas: insertado en el navegador a través de JavaScript, que es la forma de uso que principalmente se pensó para ello; o en contenedores aprovechando las características de los shims de Containerd, además de la WebAssembly System Interface (WASI).
 
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=0.75\linewidth]{figures/WebAssembly-Logo.png}
+    \includegraphics[width=0.5\linewidth]{figures/WebAssembly-Logo.png}
     \caption{Logo de WebAssembly}
     \label{fig:WebAssembly-Logo}
 \end{figure}
 
 \subsection{WebAssembly System Interface}
 
-TBD
+WebAssembly System Interface (WASI) es un conjunto de especificaciones de API estándar para software compilado al estándar WebAssembly del W3C. Está diseñado para aplicaciones que pueden ser compiladas a Wasm desde cualquier lenguaje y que pueden ejecutarse en cualquier lugar, desde navegadores hasta nubes y dispositivos integrados. En la actualidad, WASI ha tenido dos lanzamientos importantes conocidos como 0.1 y 0.2. Estas versiones son a veces referidas como \textit{Preview 1} y \textit{Preview 2}, o \textit{P1} y \textit{P2}. Busca mantener los principios clave de WebAssembly: portabilidad y seguridad.
+
+Para comenzar con WASI, hay varios entornos de ejecución que lo soportan, incluyendo Wasmtime, WAMR, WasmEdge, wazero, Wasmer, wasmi y wasm3. Cada uno de estos entornos tiene diferentes áreas de enfoque, como WAMR que se enfoca en IoT, dispositivos embebidos o edge computing, o WasmEdge que se enfoca en el lado del servidor y en la ejecución de grandes modelos de lenguaje de inteligencia artificial.
+
+WASI ha permitido la ejecución de código fuera del entorno del navegador, de una similar a como Node.js lo hizo con JavaScript. Esto ha hecho que podamos usar WebAssembly en entornos para los que inicialmente no estaba pensado, como contenedores y sistemas con arquitecturas basadas en microservicios.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.5\linewidth]{figures/wasi.png}
+    \caption{Logo de WASI}
+    \label{fig:wasi-logo}
+\end{figure}
+
+\section{Aplicaciones de WebAssembly en Arquitecturas Basadas en Microservicios y Serverless}
+
+\subsection{Implementación en contenedores}
+
+Como hemos mencionado antes, la llegada de WASI, sobre todo en su P2, ha hecho viable la utilización de WebAssembly dentro de contenedores. Podemos usar esta tecnología para otorgar a los contenedores una capa extra de eficiencia y seguridad. WasmEdge es un runtime optimizado para ejecutar WebAssembly en entornos de contenedores como Docker. Este enfoque promete mejorar el rendimiento, la escalabilidad y la seguridad de las aplicaciones.
+
+\subsection{Comparativa con Tecnologías Existentes}
+
+En todas las documentaciones de los principales desarrolladores de runtimes de WebAssembly podemos encontrar referencias a grandes mejorías frente a las tecnologías clásicas o actuales. Estas afirmaciones podrían estar basadas en benchmarks internos a la hora del desarrollo o tener un sesgo al estar varios de estos runtimes mantenidos principalmente por empresas privadas, a pesar de ser de código abierto. En este trabajo se quiere probar que estas afirmaciones son ciertas evaluando factores como el tiempo de ejecución, los tamaños de imagen y la facilidad de uso.
+
+\subsection{Serverless y Functions as a Service}
+
+Como hemos descrito anteriormente, debido a que Kubernetes usa containerd como runtime de ejecución de contenedores, podemos ejecutar contenedores WebAssembly mediante el uso de el shim RunWasi. Una de las grandes bondades descritas a la hora de usar WASM en contenedores es su teórico rápido tiempo de ejecución y de arranque. En este aspecto, los entornos Serverless se vuelven muy interesantes a la hora de usar WASM, debido a que dada la naturaleza de Serverless, es necesario escalar y desescalar contenedores constantemente con base en la carga de tráfico o de trabajo que reciba tu aplicación. Esto hace que tener un rápido tiempo de arranque sea extremadamente beneficioso para el usuario o cliente final, que podría ver una notable mejoría en la experiencia de uso de las aplicaciones al verse reducido el tiempo de espera en determinadas situaciones.

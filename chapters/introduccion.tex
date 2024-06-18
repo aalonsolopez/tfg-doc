@@ -39,6 +39,10 @@ Las ventajas clave de utilizar Serverless incluyen: una significativa reducción
 
 En este contexto, WebAssembly (WASM) se está convirtiendo en una tecnología innovadora que puede unificar y simplificar el proceso de desarrollo y despliegue de aplicaciones distribuidas. WASM es un formato de código compilado que permite a los desarrolladores crear aplicaciones web que sean capaces de ejecutarse en diferentes entornos y plataformas, sin la necesidad de traducción o interpretación. Pese a que en su origen WASM fue concebido para poder ejecutar código en clientes web distintos, la creación de WebAssembly System Interface (WASI) hizo posible la ejecución de código compilado a WASM en el entorno del servidor. WASI permite a estos programas hacer llamadas al sistema donde se ejecuta, como entrada y salida, o lectura y escritura de ficheros, entre otras.
 
+\textbf{El problema subyacente}
+
+En todos estos casos, existe un problema de base que es que pese a que los contenedores han resultado ser una herramienta más que fiable, que tiene fuertes mejorías frente a los servidores y máquinas virtualizadas, siguen teniendo espacio a mejora. Actualmente, las imágenes de Docker siguen siendo muy pesadas, los tiempos de arranque y de build son generalmente lentos y encontramos que muchos entornos siguen siendo muy inseguros por errores humanos en la configuración de cada contenedor.
+
  
 \section{Objetivos}
 
@@ -48,7 +52,7 @@ Además de este, se han establecido diferentes objetivos derivados del principal
 
 \subsection{Principal}
 
-Evaluar la viabilidad y el rendimiento de WebAssembly usando WasmEdge en entornos Docker, mediante el desarrollo de pruebas comparativas y benchmarks que analicen tiempos de ejecución, tamaños de imagen, y la identificación de bugs y compensaciones (trade-offs) en el uso de contenedores. Además, se pretende hacer una comparativa con la facilidad de uso de contenedores basados en Wasm frente a contenedores con imágenes basadas en distribuciones Linux convencionales.
+Evaluar la viabilidad y el rendimiento de WebAssembly usando WasmEdge en entornos de contenedores, mediante el desarrollo de pruebas comparativas y benchmarks que analicen tiempos de ejecución, tamaños de imagen, y la identificación de bugs y compensaciones (trade-offs) en el uso de contenedores. Además, se pretende hacer una comparativa con la facilidad de uso de contenedores basados en Wasm frente a contenedores con imágenes basadas en distribuciones Linux convencionales.
 
 \subsection{Derivados}
 
@@ -66,9 +70,9 @@ Realizar un análisis exhaustivo de la arquitectura y evolución de Docker y Kub
 
 Realizar una investigación exhaustiva sobre el desarrollo de aplicaciones y componentes en WebAssembly (WASM) y WebAssembly System Interface (WASI), incluyendo su estado actual, lenguajes compatibles, y su integración con contenedores. El resultado debe de ser una vista general del estado del desarrollo de estas tecnologías, su actual viabilidad de adopción en proyectos en producción, y sus trade-offs a la hora de adoptarlo.
 
-\subsubsection{4. WebAssembly en plataformas de Kubernetes}
+\subsubsection{4. WebAssembly en plataformas de contenedores especificas}
 
-Evaluar y optimizar el uso de WebAssembly con WasmEdge en Kubernetes utilizando \textit{runtimes} como containerd en diferentes plataformas (microk8s, minikube y k3s), mediante el desarrollo de pruebas comparativas y benchmarks que analicen la facilidad de uso, tiempos de ejecución, tamaños de imagen, y la identificación de bugs y compensaciones (trade-offs) en el uso de contenedores, complementado con la documentación del proceso de despliegue usando \textit{RunWasi}.
+Evaluar y optimizar el uso de WebAssembly con WasmEdge en Kubernetes y Docker utilizando \textit{runtimes} como containerd en diferentes plataformas (microk8s, minikube, k3s y Docker Desktop), mediante el desarrollo de pruebas comparativas y benchmarks que analicen la facilidad de uso, tiempos de ejecución, tamaños de imagen, y la identificación de bugs y compensaciones (trade-offs) en el uso de contenedores, complementado con la documentación del proceso de despliegue usando \textit{RunWasi}.
 
 \subsubsection{5. WebAssembly en entornos serverless}
 
@@ -76,11 +80,11 @@ Evaluar la viabilidad y el rendimiento de WebAssembly usando WasmEdge en entorno
 
 \section{Motivación}
 
-La motivación detrás de este trabajo radica en la necesidad de desarrollar soluciones innovadoras para el desarrollo de aplicaciones escalables y seguras en entornos de contenedores. En la actualidad, el uso de contenedores como Docker y orquestadores de estos como Kubernetes ha revolucionado la forma en que se desarrollan y se implementan aplicaciones gracias a su capacidad para proporcionar aislamiento, flexibilidad y escalabilidad.
-
-Sin embargo, la creciente complejidad y la velocidad de evolución de los sistemas de información requieren de soluciones más eficientes y escalables. La utilización de WebAssembly (WASM) como tecnología para ejecutar código en contenedores puede ser una respuesta efectiva a este desafío.
+La motivación detrás de este trabajo radica en la experiencia propia a la hora de desarrollar y desplegar microservicios en Kubernetes, con varias capas de extra como Istio. Tienes que andar manteniendo cada \textit{deployment} teniendo cuidado de las vulnerabilidades que pueda tener cada imagen creada para cada \textit{pod}, de los tiempos de creación, arranque y borrado de cada uno, y en general de los \textit{trade-offs} de tener muchos contenedores Linux \textit{hosteados} en un mismo cluster. Docker ahora mismo es la mayor aplicación de gestión de contenedores del mundo, y están apostando mucho por WebAssembly, porque confían en que pueden ser el futuro que venga a arreglar los problemas que tienen los contenedores actuales. 
 
 El proyecto propuesto busca evaluar la viabilidad y el rendimiento de WASM utilizando WasmEdge en diferentes entornos de contenedores, con el fin de desarrollar soluciones más eficientes y escalables para el desarrollo de aplicaciones. Los resultados esperados son una mayor comprensión del potencial de WASM en entornos de contenedores, así como la identificación de oportunidades de mejora y optimización para su implementación efectiva.
+
+Muchos de los principales creadores de los runtimes de WASM que existen en la actualidad afirman que, pese a estar esta tecnología en una fase muy temprana de desarrollo, ya se encuentran claras mejorías frente a los contenedores Linux. Previamente y durante la realización de este proyecto se han encontrado diferentes artículos y publicaciones que eran contradictorios en los resultados y conclusiones de cada uno. Además, en este trabajo se quiere ir un poco más allá e intentar tener un contacto directo con los desarrolladores detrás de WasmEdge, para que puedan ir dando feedback o ayudándome a entender el razonamiento y motivos detrás de los resultados extraídos, y cuáles son sus planes de cara a futuro.
 
 En este sentido, esta investigación se enfoca en la aplicación práctica de los conceptos teóricos aprendidos durante el desarrollo del título de grado, y contribuye a la formación de competencias en áreas como el desarrollo de aplicaciones, la ingeniería de software y la innovación tecnológica.
 
