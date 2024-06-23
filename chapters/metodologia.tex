@@ -1,2 +1,199 @@
-\chapter{Metodología}
+\chapter{Materiales y Métodos}
 \label{ch:metodología}
+
+\section{Introducción}
+
+En este capítulo se abordará la pieza clave de este proyecto: la metodología. La metodología no es solo el conjunto de métodos que se han empleado para alcanzar los objetivos, sino que también constituye la manera de abordar nuestro caso de estudio. Aquí se van a delinear los procedimientos y técnicas para obtener unos datos que comparar y el futuro procesado de los datos para poder extraer unos resultados y conclusiones que comparar.
+
+En las siguientes secciones, se van a diseccionar las hipótesis previas al estudio de las que se parte; las herramientas y tecnologías usadas, entre todas las disponibles; los procedimientos de extracción de datos y sus diferentes métodos; los métodos de evaluación y validación que se van a emplear con los datos extraídos; las diferentes contribuciones a la comunidad que se van a realizar durante el desarrollo del proyecto; y las limitaciones que se han encontrado a la hora de poder realizar los objetivos del proyecto.
+
+\section{Diseño del estudio}
+
+\subsection{Parámetros a evaluar}
+
+El diseño del estudio se ha hecho alrededor del objetivo principal del proyecto. Se quiere evaluar si WebAssembly puede proporcionar mejoras significativas en términos de rendimiento, eficiencia y seguridad en la implementación de microservicios en comparación con las tecnologías de contenedores tradicionales. Dentro de esta meta global, esta se puede diseccionar en varios parámetros más específicos, que cada uno va a tener un método de medición diferente:
+
+\begin{enumerate}
+    \item Comparar los tiempos de arranque entre contenedores basados en WebAssembly y contenedores tradicionales.
+    \item Evaluar el tamaño de las imágenes de contenedores y la eficiencia en el uso de recursos.
+    \item Analizar la escalabilidad y el tiempo de respuesta en plataformas serverless.
+    \item Medir la seguridad y la reducción de la superficie de ataque en implementaciones basadas en WebAssembly.
+\end{enumerate}
+
+Cada uno de estos objetivos se evaluará en la sección de resultados, donde se expondrán los datos de los contenedores basados en tecnologías basadas en WASI y WASM frente a los contenedores basados en imágenes Linux completas.
+
+\subsection{Hipótesis}
+
+Las hipótesis planteadas serán probadas mediante un conjunto de pruebas comparativas basadas en los datos extraídos de unos benchmarks específicos que medirán los parámetros ya especificados. Se ha definido una hipótesis que será la que finalmente decidirá si se cumple el objetivo principal. Esta hipótesis y su cumplimiento será respaldada por la comprobación individual de unas hipótesis específicas más granulares.
+
+\subsubsection{Hipótesis principal}
+
+\textbf{H1:} La implementación de microservicios utilizando WebAssembly (WasmEdge) en contenedores ofrece un rendimiento superior y una mayor seguridad en comparación con las implementaciones tradicionales basadas en distribuciones Linux.
+
+\subsubsection{Hipótesis específicas}
+
+\textbf{H2:} Los tiempos de arranque de los contenedores basados en WebAssembly son significativamente más rápidos que los tiempos de arranque de los contenedores tradicionales basados en sistemas operativos completos.
+
+\textbf{H3:} Las imágenes de contenedores basadas en WebAssembly son más ligeras en términos de tamaño que las imágenes tradicionales, lo que resulta en una menor utilización de recursos y una mayor eficiencia en el despliegue.
+
+\textbf{H4:} La integración de WebAssembly con plataformas serverless (como Knative) mejora la escalabilidad y reduce el tiempo de respuesta de las aplicaciones en comparación con las tecnologías de contenedores tradicionales.
+
+\textbf{H5:} La ejecución de microservicios en WebAssembly reduce la superficie de ataque y mejora la seguridad del sistema en comparación con la ejecución de microservicios en contenedores basados en distribuciones Linux.
+
+\subsection{Justificación de las hipótesis}
+
+\textbf{H1:} La hipótesis principal está basada en la premisa de que WebAssembly, al ser un formato binario, compacto y optimizado, puede ofrecer un rendimiento más cercano al nativo y proporcionar una capa adicional de seguridad mediante su modelo de ejecución aislado.
+
+\textbf{H2:} Los tiempos de arranque más rápidos de WebAssembly se deben a su menor dependencia de componentes del sistema operativo, lo que permite iniciar los contenedores de manera más eficiente.
+
+\textbf{H3:} Las imágenes de contenedores basadas en WebAssembly son más ligeras porque no incluyen un sistema operativo completo, lo que reduce significativamente el tamaño de las imágenes.
+
+\textbf{H4:} La escalabilidad y el tiempo de respuesta mejorados en plataformas serverless con WebAssembly se deben a su capacidad para ejecutar código de manera más eficiente y con menos gastos de recursos generales en comparación con las tecnologías tradicionales.
+
+\textbf{H5:} La seguridad mejorada se basa en que las imágenes de WebAssembly se ejecuta en un entorno aislado y que además carece de las funciones básicas que un sistema operativo Linux posee, que además componen un vector de ataque importante.
+
+\section{Herramientas y tecnologías usadas}
+
+Según lo expuesto en el estado del arte, hay una gran variedad de tecnologías que son compatibles con el estudio que se quiere hacer en este proyecto. Se han elegido, en este caso y en base a otros estudios similares las siguientes tecnologías:
+
+\subsection{Wasmedge}
+
+Este entorno de ejecución de contenedores basados en WASM ha sido uno de los que ha experimentado un mayor avance en poco tiempo. Entre otras tecnologías similares como Wasmtime, Wasmer o Spin, se ha elegido este debido a los pocos casos de estudio formales que se han encontrado de este. La mayoría de benchmarks y análisis se han realizado sobre Spin, que es un entorno de ejecución especialmente enfocado en la elaboración de microservicios, pero que realmente ejecuta Wasmtime como entorno base, así que se quería probar con un entorno más parecido a Wasmtime que a Spin, que agrega una capa de abstracción que hace que la migración de un microservicio no sea tan directa. Adicionalmente, se han mostrado muy seguros a la hora de asegurar una enorme mejoría de rendimiento frente a contenedores tradicionales, indicando que «puede ser 100 veces más rápido en tiempo de arranque y un 20\% más rápido en tiempo de ejecución»
+
+Aparte de estos factores, el equipo de desarrollo de WasmEdge a cargo de la empresa Second State ha demostrado ser muy abierto, tanto en el desarrollo interno de lo que son sus dos productos (WasmEdge y LlamaEdge) como en las diferentes reuniones que hacen mensualmente para informar, así como construyendo una comunidad inclusiva con los recién llegados y abierta a que puedas preguntar acerca de temas técnicos y de contribución. Esto es algo que parece trivial, pero que en mi experiencia personal no siempre se da.
+
+\subsection{Docker y Kubernetes}
+\label{sub:docker-y-k8s}
+
+Pese a que se ha optado por un runtime menos extendido, para las herramientas de creación, despliegue y orquestación de contenedores se han seleccionado las dos herramientas que son estándar de facto: Docker y Kubernetes. Ambas dos herramientas sirven para el despliegue mutuo de contenedores WebAssembly, ya que ejecutan containerd como entorno de ejecución de contenedores. Además, llevado a un entorno profesional, lo más probable es que se aplique WebAssembly sobre estas dos, al ser los más extendidos. Se ha valorado también uso de Podman en lugar de Docker, o Docker Swarm en lugar de Kubernetes, pero he antepuesto los seleccionados por comodidad y mi propio conocimiento de su uso previo al desarrollo de este proyecto.
+
+Dentro de Kubernetes, hay una gran variedad de herramientas que permiten desplegar clústeres en local, usando cada una de ellas diferentes formas de hacerlo. Durante el transcurso de las pruebas se han probado distintas alternativas muy populares a la hora de crear entornos de desarrollo local, como en producción, para ver si había diferencias significativas en el funcionamiento de WebAssembly. Se va a hacer un repaso entre ellas para diseccionar las diferencias.
+
+\subsubsection{MicroK8s}
+\label{subsub:microk8s}
+
+MicroK8s es una herramienta perteneciente a CNCF creada por la empresa Canonical, desarrolladores del sistema operativo Ubuntu y Snap, entre otros productos. Es open source, y funciona creando un espacio aislado en tu sistema operativo donde almacena todas las variables de entorno y archivos de configuración. Puedes acceder a ellos mediante archivos de configuración y así activar características avanzadas como las necesarias habilitar el uso de WASM. Además, tiene un sistema de add-ons que facilita mucho el despliegue de las herramientas disponibles.
+
+\subsubsection{Minikube}
+
+Minikube es una herramienta también perteneciente a CNCF creada por los mismos desarrolladores de Kubernetes. Permite crear un clúster de Kubernetes generando una máquina virtual usando un hipervisor (como HyperV) o creando un contenedor Docker con un clúster, lo que se conoce como \textit{Kubernetes in Docker}. Tiene tambien un sistema de add-ons, menos poderoso que el de MicroK8s\ref{subsub:microk8s}, pero uno de sus puntos más fuertes es la capacidad de abrir un \textit{Minikube Tunnel} para exponer servicios a la propia máquina, como si existiese un balanceador de carga.
+
+\subsubsection{k3s}
+
+K3s es \textbf{la herramienta que se ha usado a la hora de extraer los resultados de este proyecto}, pese a que se han usado puntualmente las alternativas anteriores. K3s es una herramienta desarrollada originalmente por \textit{Rancher by Suse}, y que también es parte de CNCF. Esta proporciona un clúster muy liviano en recursos directamente en tu máquina \textit{(bare metal)} sin perder las cualidades ni las funcionalidades de cualquier clúster al uso. Se ha decidido el uso final de esta debido a que, como no hay un intermediario como una máquina virtual o un contenedor al usarla, puedes acceder a trazas del sistema usando herramientas como «Journalctl».
+
+\subsection{Knative}
+
+Knative es una plataforma serverless basada en Kubernetes que permite la construcción, implementación y gestión de aplicaciones serverless y contenedores, que además es parte de la CNCF, como la mayoría de herramientas adoptadas para el proyecto. La elección de Knative para este proyecto se debe a su capacidad para simplificar la implementación de aplicaciones serverless utilizando contenedores, lo que es particularmente relevante para la evaluación de WebAssembly en entornos serverless.
+
+Uno de los principales motivos para seleccionar Knative es su flexibilidad y capacidad de integración con diferentes entornos de ejecución de contenedores, incluyendo WebAssembly. Knative proporciona una infraestructura robusta que permite escalar aplicaciones automáticamente en función de la demanda, lo cual es esencial para probar la escalabilidad de los microservicios basados en WasmEdge.
+
+La elección de Knative también está respaldada por su amplia adopción y soporte en la comunidad de Kubernetes. Esto asegura una mayor compatibilidad y facilidad de integración con las herramientas de creación y despliegue de contenedores seleccionadas (Docker y Kubernetes).
+
+\subsection{Benchmarking}
+
+Para la elaboración de las pruebas de benchmarking, se han explorado varias herramientas de código abierto disponibles en GitHub, entre ellas «Hey», «sysbench» o «wrk». Estas utilidades, pese a haber sido probadas, no proporcionaban la información que se consideraba útil para la realización del proyecto, así que por facilidad y eficiencia en tiempo se optó por elaborar scripts de recolección de trazas de sistemas. Para la elaboración de estos scripts que se usan en el caso de Kubernetes, se ha usado systemctl y journalctl, que permite recolectar los datos que kubelet y kubeadm deja en los logs del sistema. En el caso de Docker, se ha hecho un script similar, aunque la herramienta Docker Desktop te deja mucha de esta información servida en un entorno gráfico, y en el archivo de especificación de contenedores. 
+
+\section{Método de estudio}
+
+\subsection{Identificación de entornos necesarios}
+
+El objetivo del trabajo es evaluar WebAssembly en distintos entornos de microservicios, todos de ellos basados en contenedores. En este caso, podemos diferenciar dos entornos claros: un entorno basado en Docker, y un entorno basado en Kubernetes. Dentro del entorno basado en Kubernetes, vamos a escalonar las pruebas para que primero se pueda evaluar WASM en un entorno que no tenga serverless, y una vez esas evaluaciones estén hechas añadirle la capa extra que supone Knative.
+
+\subsection{Preparación de los entornos de pruebas}
+
+Como hemos identificado dos entornos de pruebas, cada uno requiere de una preparación específica a la hora de tener listo el entorno para empezar las pruebas. A continuación se detallará la preparación específica llevada a cabo en cada entorno.
+
+\subsubsection{Entorno de contenedores no orquestados Docker}
+
+Para el entorno de pruebas de contenedores no orquestados que sea compatible con WebAssembly, necesitamos una versión de Docker en específico. La propia documentación de Docker te recomienda que para este tipo de cargas de trabajo basadas en módulos de WebAssembly uses Docker Desktop. Docker Desktop es un producto gratuito de Docker que agrega una capa de interfaz gráfica al motor de contenedores que te permite tener una gestión más amigable para el usuario de los contenedores, imágenes e incluso builds. Poder visualizar este tipo de datos va a ser importante a la hora de poder sacar resultados y conclusiones de manera sencilla y sin herramientas extra. Además, te permite configurar de una manera muy sencilla las diferentes características que tiene el motor, como las funciones “beta” o “alfa”.
+
+Las versiones específicas usadas son las siguientes:
+
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{|c|c|} \hline 
+    
+    \multicolumn{2}{|c|}{\textbf{Versiones}}\\ \hline 
+        \textbf{Sistema Operativo} & Ubuntu 22.04 LTS\\ \hline 
+        \textbf{Docker Desktop} & v4.30.0\\ \hline 
+        \textbf{Docker Engine} & v26.1.1\\ \hline 
+        \textbf{Containerd} & v1.6.28\\ \hline 
+        \textbf{RunWasi} & v0.4.0\\ \hline
+    \end{tabular}
+    
+    \caption{Tabla de Versiones del entorno Docker}
+    \label{tab:tabla-de-versiones-docker}
+\end{table}
+
+Para poder activar las características de WebAssembly en la versión usada de Docker Desktop (versión 4.30.0)\ref{tab:tabla-de-versiones-docker} necesitas activar dos opciones:
+
+\begin{enumerate}
+    \item En opciones generales dentro de Docker Desktop, activar la función “Use containerd for pulling and storing images”.
+    
+    \item En opciones experimentales, activar la opción “Enable Wasm”, que requiere el paso anterior obligatoriamente.  
+\end{enumerate}
+
+Cabe destacar que aparentemente no tenemos el Shim de WasmEdge, si no RunWasi. El shim de WasmEdge está hecho a partir de RunWasi, por lo que las versiones de RunWasi empaquetan a el resto de shims derivados de este, como pueden ser WasmTime o el propio WasmEdge. Para los fines de este trabajo, siempre usaremos el runtime WasmEdge.
+
+\subsubsection{Entornos de Kubernetes sin serverless}
+
+En el caso de los entornos de Kubernetes se ha tenido que hacer una elección entre diferentes herramientas. Hay una gran cantidad de herramientas que te permiten desplegar clústeres en local, y en el desarrollo de las pruebas se han tenido en cuenta varias, cada una con una forma distinta de despliegue de contenedores, como se ha mencionado en apartados anteriores \ref{sub:docker-y-k8s}.
+
+A pesar de haber hecho pruebas en estas tres herramientas, se ha decantado por la opción de K3s, ya que es más sencillo de conseguir métricas. Si bien es cierto que podría montarse un servicio de recogida de \textit{logs} y métricas, se ha optado por mantener el clúster lo menos cargado posible, ya que cada log se envía una vez al \textit{control plane} de Kubernetes, y se quería descartar la opción de que un servicio así metiese latencia extra a los procesos de Kubernetes. Además, en el siguiente artículo en el que se hace un experimento similar \cite{Kjorveziroski2023} y en el que se han obtenido rendimientos cercanos a los esperados, se ha usado esta misma herramienta, y se quería continuar con la misma línea, pero comprobándolo con otro runtime y en nuestro propio contexto.
+
+Las versiones específicas del entorno de k3s son las siguientes:
+
+\begin{table}[t!]
+    \centering
+    \begin{tabular}{|c|c|} \hline 
+    \multicolumn{2}{|c|}{\textbf{Versiones}}\\ \hline 
+        \textbf{Sistema Operativo} & Ubuntu 22.04 LTS\\ \hline 
+        \textbf{K3s version} & v1.30.1+k3s1\\ \hline 
+        \textbf{Kubernetes} & v1.30.1\\ \hline 
+        \textbf{Containerd} & v1.7.15\\ \hline 
+        \textbf{RunWasi} & v0.4.0\\ \hline
+    \end{tabular}
+    \caption{Tabla de Versiones del entorno Kubernetes}
+    \label{tab:tabla-de-versiones-kubernetes}
+\end{table}
+
+Para el despliegue de este entorno, hay que asegurarnos de que tenemos instalada la herramienta «kubectl» para la gestión de los recursos de clústeres de Kubernetes. Una vez tenemos esta en el equipo, hay que descargar e instalar la herramienta k3s usando el siguiente comando. Cabe destacar que es necesario tener instalado la herramienta «curl».
+
+\begin{lstlisting}[language=bash]
+    curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION=v1.30.1+k3s1 K3S_KUBECONFIG_MODE="644" INSTALL_K3S_EXEC="--disable traefik"  sh -
+\end{lstlisting}
+
+Cuando la instalación está completa y tenemos todos los servicios base de Kubernetes ejecutándose en nuestro clúster, hay que configurar containerd para tener el shim de ejecución de WebAssembly. Hay un servicio llamado Kwasm que te hace esto mismo de manera automática, instalando la versión más reciente directamente del repo de RunWasi. Para hacer esto, hay que instalar «Helm», un gestor de paquetes para Kubernetes, y ejecutar los siguientes comandos.
+
+\begin{lstlisting}[language=bash]
+    helm repo add kwasm http://kwasm.sh/kwasm-operator/
+
+    helm install -n kwasm --create-namespace kwasm-operator kwasm/kwasm-operator
+
+    kubectl annotate node --all kwasm.sh/kwasm-node=true
+\end{lstlisting}
+
+Cuando todo esto esté hecho, el entorno estará listo para ser usado.
+
+\subsubsection{Entorno de Kubernetes aplicando serverless con Knative}
+
+Para el entorno de Kubernetes con serverless, vamos a reutilizar el entorno anteriormente configurado. Una de las bondades de Kubernetes es que es altamente extensible debido a que todos los añadidos que se hacen a este se hacen usando \textit{CustomResourceDefinitions}. Esto hace que se puedan aplicar simplemente descargando unos archivos YAML y aplicándolos directamente sobre el clúster, sin necesidad de tener que reinstalar ni reconfigurar nada. A diferencia del artículo que ya hemos citado anteriormente \cite{Kjorveziroski2023}, no vamos a usar OpenFaaS, y vamos a usar Knative. Knative es una herramienta que simplifica mucho la gestión del serverless al integrar una CLI para gestionar estos. Además, es una tecnología en auge con una gran cantidad de contribuidores y por las que apuestan empresas como Google y VMWare.
+
+Para aplicar Knative, se recomienda seguir los pasos que se citan en la web de referencia de Knative \cite{KnativeInstall} debido a que tiene pasos extra requeridos para la aplicación de estos archivos.
+
+\subsection{Definición de las métricas a analizar}
+
+Para evaluar de manera objetiva la viabilidad y el rendimiento de WebAssembly en comparación con tecnologías de contenedores tradicionales como Docker sobre contenedores Linux, es crucial definir y una serie de métricas de rendimiento sobre datos objetivos. Estas métricas proporcionarán datos cuantitativos que permitirán realizar un análisis comparativo detallado. Las métricas seleccionadas para este estudio son las siguientes:
+
+\subsubsection{Tiempo de respuesta}
+
+El tiempo de respuesta se define como el tiempo total transcurrido desde que una solicitud es enviada a un microservicio hasta que se recibe una respuesta. Esta métrica evalúa la latencia y la eficiencia de los microservicios bajo diferentes condiciones de carga.
+
+\subsubsection{Tiempo de arranque}
+
+El tiempo de arranque se refiere al tiempo que tarda un contenedor Docker o un módulo WebAssembly (WASM) en iniciar completamente desde el momento en que se envía la orden de arranque hasta que está listo para recibir y procesar solicitudes. Esta métrica es crucial para evaluar la rapidez con la que los microservicios pueden escalar en respuesta a cambios en la demanda y es especialmente relevante en entornos dinámicos y de alta disponibilidad. Lo importante a evaluar en específico es el llamado \textit{cold start}, que es el tiempo en el que un contenedor pasa de un estado de “no existencia” en el que el sistema tiene que preparar los recursos para este, cargar la imagen y arrancar el servicio para que pueda estar listo para recibir respuesta.
+
+\subsubsection{Seguridad de los servicios}
+
+Se quiere analizar la seguridad de los contenedores basados en módulos WASM (WebAssembly), comparando su efectividad en términos de aislamiento, verificación de código y control de acceso frente a los contenedores tradicionales de Docker. Esta comparación es crucial para determinar si WASM puede ofrecer una mayor seguridad en el despliegue de microservicios.
